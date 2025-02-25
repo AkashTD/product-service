@@ -1,4 +1,4 @@
-package com.shopsphere.product_service.model;
+package com.shopsphere.product_service.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
