@@ -1,6 +1,8 @@
 package com.shopsphere.product_service;
 
 import com.shopsphere.product_service.dto.ProductRequest;
+import com.shopsphere.product_service.repository.ProductRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,14 +40,19 @@ class ProductServiceApplicationTests {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	@Autowired
+	private ProductRepository productRepository;
+
 	@Test
 	void shouldCreateProduct() throws Exception {
 		ProductRequest productRequest = getProductRequest();
 		String productRequestString = objectMapper.writeValueAsString(productRequest);
-		mockMvc.perform(MockMvcRequestBuilders.post("/api/product")
+		mockMvc.perform(MockMvcRequestBuilders.post("/product")
 				.contentType(MediaType.APPLICATION_JSON.getMediaType())
 				.content(productRequestString))
 				.andExpect(status().isCreated());
+
+		Assertions.assertEquals(1, productRepository.findAll().size());
 	}
 
 	private ProductRequest getProductRequest() {
